@@ -10,7 +10,12 @@ PORT = 8765
 # base_path が /shika-doctors なので、その名前で配信する仮ルートを作る
 os.makedirs(SHOTS, exist_ok=True)
 
-handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=ROOT)
+# base_url が /shika-doctors 配下なので、その名前で docs/ を配信する一時ルートを作る
+import tempfile
+SERVE = tempfile.mkdtemp(prefix="shika-serve-")
+os.symlink(DOCS, os.path.join(SERVE, "shika-doctors"), target_is_directory=True)     if hasattr(os, "symlink") else None
+
+handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=SERVE)
 socketserver.TCPServer.allow_reuse_address = True
 httpd = socketserver.TCPServer(("127.0.0.1", PORT), handler)
 threading.Thread(target=httpd.serve_forever, daemon=True).start()
