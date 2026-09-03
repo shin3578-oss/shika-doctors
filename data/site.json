@@ -1,0 +1,9 @@
+{
+  "name": "歯科ドクターズ",
+  "tagline": "歯科医師の考え方から、歯医者を選ぶ。",
+  "description": "全国の歯科医院を、院長インタビューで紹介する情報サイト。診療時間・アクセス・診療内容に加えて、その先生がどんな考えで治療をしているかまで分かります。",
+  "base_url": "https://shin3578-oss.github.io/shika-doctors",
+  "operator": "医療法人社団KDS",
+  "contact_email": "shin3578@gmail.com",
+  "launched": "2026-09"
+}

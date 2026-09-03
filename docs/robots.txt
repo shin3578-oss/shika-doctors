@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://shin3578-oss.github.io/shika-doctors/sitemap.xml
