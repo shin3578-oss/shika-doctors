@@ -55,6 +55,14 @@ def e(s):
     return escape(str(s), quote=True)
 
 
+def obf(addr):
+    """メールアドレスを数値文字参照にする。画面では普通に読めるが、
+    ソースを正規表現でなめる収集業者には拾われない。"""
+    body = "".join(f"&#{ord(ch)};" for ch in addr)
+    href = "".join(f"&#{ord(ch)};" for ch in "mailto:" + addr)
+    return f'<a href="{href}">{body}</a>'
+
+
 # ---------------------------------------------------------------- 共通の枠
 
 def layout(path, title, desc, body, jsonld=None, breadcrumb=None):
@@ -119,7 +127,7 @@ def layout(path, title, desc, body, jsonld=None, breadcrumb=None):
     {e(SITE['name'])}は、全国の歯科医院を院長インタビューで紹介する情報サイトです。<br>
     掲載内容は各医院からご提供いただいた情報および取材に基づくもので、
     治療の効果を保証するものではありません。受診の判断は必ず医療機関にご相談ください。<br>
-    運営：{e(SITE['operator'])}／お問い合わせ：{e(SITE['contact_email'])}<br>
+    運営：{e(SITE['operator'])}／お問い合わせ：{obf(SITE['contact_email'])}<br>
     &copy; {date.today().year} {e(SITE['name'])}
   </div>
 </div></footer>
@@ -528,7 +536,7 @@ def page_entry():
     <h2 class="sec">お申し込み・ご相談</h2>
     <div class="panel">
       <p style="margin-top:0">下記までメールでご連絡ください。営業のお電話はいたしません。</p>
-      <p style="font-size:1.15rem;font-weight:700;color:var(--navy);margin:0 0 6px">{e(SITE['contact_email'])}</p>
+      <p style="font-size:1.15rem;font-weight:700;color:var(--navy);margin:0 0 6px">{obf(SITE['contact_email'])}</p>
       <p style="margin-bottom:0;font-size:.88rem;color:var(--muted)">
         件名に「掲載希望」とご記入ください。医院名・ご住所・お電話番号・ご担当者名をお知らせいただけますとスムーズです。</p>
     </div>
@@ -565,7 +573,7 @@ def page_about():
 
     <h2>運営</h2>
     <p>{e(SITE['operator'])}<br>
-    お問い合わせ：{e(SITE['contact_email'])}</p>
+    お問い合わせ：{obf(SITE['contact_email'])}</p>
     <p style="margin-bottom:0"><a href="{u('/policy/')}">掲載方針・免責事項はこちら →</a></p>
   </div>
 </div></div></main>"""
@@ -612,7 +620,7 @@ def page_policy():
     体調や症状に関する判断は、必ず医療機関にご相談ください。</p>
 
     <h2>6. 掲載の停止・修正</h2>
-    <p>掲載内容の修正・掲載の取り下げは、いつでも承ります。{e(SITE['contact_email'])} までご連絡ください。</p>
+    <p>掲載内容の修正・掲載の取り下げは、いつでも承ります。{obf(SITE['contact_email'])} までご連絡ください。</p>
   </div>
 </div></div></main>"""
     layout("/policy/", "掲載方針・免責事項",
